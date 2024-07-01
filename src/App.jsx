@@ -12,10 +12,21 @@ function App() {
         "https://opentdb.com/api.php?amount=5&category=20&difficulty=easy&type=multiple"
       );
       const data = await res.json();
-      setQuestions(data.results);
-      console.log(data.results);
+      setQuestions(
+        data.results.map((result, index) => {
+          const allAnswers = [...result.incorrect_answers];
+          const randomIndex = Math.floor(
+            Math.random() * (allAnswers.length + 1)
+          );
+          allAnswers.splice(randomIndex, 0, result.correct_answer);
+          return {
+            ...result,
+            allAnswers,
+            id: { index }
+          };
+        })
+      );
     }
-
     fetchData();
   }, []);
 
