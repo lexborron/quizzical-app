@@ -3,7 +3,7 @@ import Question from "./Question";
 import "./App.css";
 
 function App() {
-  const hasStarted = true;
+  const [isPlaying, setIsPlaying] = useState(false);
   const [questions, setQuestions] = useState([]);
 
   useEffect(() => {
@@ -30,20 +30,24 @@ function App() {
     fetchData();
   }, []);
 
-  const questionElements =
-    questions.length > 0 &&
-    questions.map((question, index) => <Question key={index} {...question} />);
+  function startQuiz() {
+    setIsPlaying(!isPlaying);
+  }
+
+  const questionElements = questions.map((question, index) => (
+    <Question key={index} {...question} />
+  ));
 
   return (
     <main>
-      {!hasStarted ? (
+      {!isPlaying ? (
         <>
           <h1>Quizzical</h1>
-          <button>Start quiz</button>
+          <button onClick={startQuiz}>Start quiz</button>
         </>
       ) : (
         <>
-          {questionElements}
+          {questions.length > 0 && questionElements}
           <button>Check answers</button>
         </>
       )}
