@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { decode } from "html-entities";
 import Question from "./Question";
 import "./App.css";
 
@@ -14,6 +15,7 @@ function App() {
       const data = await res.json();
       setQuestions(
         data.results.map((result, index) => {
+          console.log(result);
           const allAnswers = [...result.incorrect_answers];
           const randomIndex = Math.floor(
             Math.random() * (allAnswers.length + 1)
@@ -21,6 +23,7 @@ function App() {
           allAnswers.splice(randomIndex, 0, result.correct_answer);
           return {
             ...result,
+            question: decode(result.question),
             allAnswers,
             id: { index }
           };
