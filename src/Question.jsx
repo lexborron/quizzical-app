@@ -1,12 +1,29 @@
-import { useState } from "react";
-
-function Question({ question, id, allAnswers, handleAnswerChange }) {
-  const [selectedAnswer, setSelectedAnswer] = useState("");
-
+function Question({
+  question,
+  id,
+  allAnswers,
+  handleAnswerChange,
+  isSubmitted,
+  selectedAnswer,
+  correctAnswer
+}) {
   function handleChange(event) {
     const answer = event.target.value;
-    setSelectedAnswer(answer);
     handleAnswerChange(id, answer);
+  }
+
+  function getStyles(answer) {
+    if (!isSubmitted) return {};
+    if (answer === correctAnswer) {
+      if (answer === selectedAnswer) {
+        return { backgroundColor: "green", color: "white" };
+      }
+      return { backgroundColor: "green" };
+    }
+    if (answer === selectedAnswer) {
+      return { backgroundColor: "red" };
+    }
+    return {};
   }
 
   return (
@@ -14,7 +31,11 @@ function Question({ question, id, allAnswers, handleAnswerChange }) {
       <div>
         <p>{question}</p>
         {allAnswers.map((answer, index) => (
-          <label key={index} htmlFor={`${id}-${index + 1}`}>
+          <label
+            key={index}
+            htmlFor={`${id}-${index + 1}`}
+            style={getStyles(answer)}
+          >
             <input
               type="radio"
               name={id}
@@ -22,6 +43,7 @@ function Question({ question, id, allAnswers, handleAnswerChange }) {
               value={answer}
               checked={selectedAnswer === answer}
               onChange={handleChange}
+              disabled={isSubmitted}
             />
             {answer}
           </label>

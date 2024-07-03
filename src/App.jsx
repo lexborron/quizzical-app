@@ -5,8 +5,10 @@ import "./App.css";
 
 function App() {
   const [isPlaying, setIsPlaying] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
   const [questions, setQuestions] = useState([]);
   const [selectedAnswers, setSelectedAnswers] = useState({});
+  const [correctAnswers, setCorrectAnswers] = useState({});
 
   useEffect(() => {
     async function fetchData() {
@@ -27,7 +29,8 @@ function App() {
               ...result,
               question: decode(result.question),
               allAnswers,
-              id: index
+              id: index,
+              correctAnswer: result.correct_answer
             };
           });
           setQuestions(fetchedQuestions);
@@ -38,19 +41,36 @@ function App() {
         console.error("Error fetching data:", error);
       }
     }
-
     if (isPlaying) {
       fetchData();
     }
   }, [isPlaying]);
 
+  useEffect(() => {
+    if (isSubmitted) {
+      const correctAnswersMap = {};
+      questions.forEach((question) => {
+        correctAnswersMap[question.id] = question.correctAnswer;
+      });
+      setCorrectAnswers(correctAnswersMap);
+    }
+  }, [isSubmitted, questions]);
+
   function startQuiz() {
     setIsPlaying(!isPlaying);
   }
 
+  function restartQuiz() {
+    setIsPlaying(!isPlaying);
+    setIsSubmitted(false);
+    setSelectedAnswers({});
+    setCorrectAnswers({});
+    setQuestions([]);
+  }
+
   function handleSubmit(event) {
     event.preventDefault();
-    console.log(selectedAnswers);
+    setIsSubmitted(true);
   }
 
   function handleAnswerChange(id, answer) {
@@ -65,6 +85,10 @@ function App() {
       key={question.id}
       {...question}
       handleAnswerChange={handleAnswerChange}
+      isCorrect={selectedAnswers[question.id] === question.correctAnswer}
+      isSubmitted={isSubmitted}
+      selectedAnswer={selectedAnswers[question.id]}
+      correctAnswer={correctAnswers[question.id]}
     />
   ));
 
@@ -78,7 +102,12 @@ function App() {
       ) : (
         <form onSubmit={handleSubmit}>
           {questions.length > 0 && questionElements}
-          <button type="submit">Check answers</button>
+          {!isSubmitted && <button type="submit">Check answers</button>}
+          {isSubmitted && (
+            <button type="button" onClick={restartQuiz}>
+              Play again
+            </button>
+          )}
         </form>
       )}
     </main>
