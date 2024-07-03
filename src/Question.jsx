@@ -1,32 +1,33 @@
 import { useState } from "react";
 
-function Question({ question, allAnswers, id }) {
+function Question({ question, id, allAnswers, handleAnswerChange }) {
   const [selectedAnswer, setSelectedAnswer] = useState("");
 
   function handleChange(event) {
-    setSelectedAnswer(event.target.value);
+    const answer = event.target.value;
+    setSelectedAnswer(answer);
+    handleAnswerChange(id, answer);
   }
 
   return (
     <>
       <div>
         <p>{question}</p>
-        {allAnswers.map((answer, index) => {
-          return (
-            <label key={index}>
-              <input
-                type="radio"
-                name={`question-${id}`}
-                value={answer}
-                checked={selectedAnswer === answer}
-                onChange={handleChange}
-              />
-              {answer}
-            </label>
-          );
-        })}
+        {allAnswers.map((answer, index) => (
+          <label key={index} htmlFor={`${id}-${index + 1}`}>
+            <input
+              type="radio"
+              name={id}
+              id={`${id}-${index + 1}`}
+              value={answer}
+              checked={selectedAnswer === answer}
+              onChange={handleChange}
+            />
+            {answer}
+          </label>
+        ))}
       </div>
-      <hr></hr>
+      <hr />
     </>
   );
 }
