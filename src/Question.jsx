@@ -1,3 +1,5 @@
+import "./App.css";
+
 function Question({
   question,
   id,
@@ -13,7 +15,9 @@ function Question({
   }
 
   function getStyles(answer) {
-    if (!isSubmitted) return {};
+    if (!isSubmitted) {
+      return selectedAnswer === answer ? { backgroundColor: "lawngreen" } : {};
+    }
     if (answer === correctAnswer) {
       if (answer === selectedAnswer) {
         return { backgroundColor: "green", color: "white" };
@@ -29,25 +33,28 @@ function Question({
   return (
     <>
       <div>
-        <p>{question}</p>
-        {allAnswers.map((answer, index) => (
-          <label
-            key={index}
-            htmlFor={`${id}-${index + 1}`}
-            style={getStyles(answer)}
-          >
-            <input
-              type="radio"
-              name={id}
-              id={`${id}-${index + 1}`}
-              value={answer}
-              checked={selectedAnswer === answer}
-              onChange={handleChange}
-              disabled={isSubmitted}
-            />
-            {answer}
-          </label>
-        ))}
+        <p className="question">{question}</p>
+        <div className="answer-container">
+          {allAnswers.map((answer, index) => (
+            <label
+              key={index}
+              htmlFor={`${id}-${index + 1}`}
+              style={getStyles(answer)}
+              className="answer-label"
+            >
+              <input
+                type="radio"
+                name={id}
+                id={`${id}-${index + 1}`}
+                value={answer}
+                checked={selectedAnswer === answer}
+                onChange={handleChange}
+                disabled={isSubmitted}
+              />
+              {answer}
+            </label>
+          ))}
+        </div>
       </div>
       <hr />
     </>

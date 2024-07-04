@@ -96,22 +96,40 @@ function App() {
     <main>
       {!isPlaying ? (
         <>
-          <h1>Quizzical</h1>
+          <h1 className="title">Quizzical</h1>
+          <p className="paragraph">
+            ⚡ Get ready to test your Mythology Trivia skills! ⚡
+          </p>
           <button onClick={startQuiz}>Start quiz</button>
         </>
       ) : (
-        <form onSubmit={handleSubmit}>
-          {questions.length > 0 && questionElements}
-          {!isSubmitted && <button type="submit">Check answers</button>}
+        <>
+          <form onSubmit={handleSubmit} className="form-container">
+            {questions.length > 0 && questionElements}
+            {!isSubmitted && <button type="submit">Check answers</button>}
+          </form>
           {isSubmitted && (
-            <button type="button" onClick={restartQuiz}>
-              Play again
-            </button>
+            <div className="footer-container">
+              <p className="score-message">
+                You scored{" "}
+                {questions.reduce((acc, question) => {
+                  return (
+                    acc +
+                    (selectedAnswers[question.id] === question.correctAnswer
+                      ? 1
+                      : 0)
+                  );
+                }, 0)}{" "}
+                / {questions.length}
+              </p>
+              <button type="button" onClick={restartQuiz}>
+                Play again
+              </button>
+            </div>
           )}
-        </form>
+        </>
       )}
     </main>
   );
 }
-
 export default App;

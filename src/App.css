@@ -1,0 +1,117 @@
+body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: lawngreen;
+  background-image: url("./assets/poseidon.png");
+  background-size: cover;
+  background-repeat: repeat;
+  background-position: center center;
+}
+
+main {
+  margin: 3rem 1rem;
+  text-align: center;
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 2rem;
+  border: 2px solid black;
+  max-width: 500px;
+}
+
+.title {
+  color: #2b283a;
+  font-family: "cc-pixel-arcade-cartridge", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: -0.768px;
+  margin-bottom: 0.6rem;
+}
+
+.paragraph {
+  font-family: inherit;
+  font-style: normal;
+  margin-bottom: 1rem;
+}
+
+button {
+  min-width: 92.16px;
+  border-radius: 8px;
+  border: 2px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1rem;
+  font-weight: 700;
+  font-family: inherit;
+  line-height: normal;
+  color: #fff;
+  background-color: #000;
+  cursor: pointer;
+  transition: border-color 0.25s, transform 0.25s;
+}
+
+button:hover {
+  background-color: #fff;
+  border-color: #000;
+  color: black;
+  transform: scale(1.1);
+}
+
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+
+input {
+  margin-right: 0.6rem;
+}
+
+input[type="radio"] {
+  display: none;
+}
+
+.question {
+  margin-bottom: 0.5rem;
+}
+
+.answer-container {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+}
+
+.answer-label {
+  display: inline-block;
+  padding: 10px;
+  cursor: pointer;
+  transition: background-color 0.4s;
+}
+
+.footer-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column; /* Flex direction for mobile */
+  align-items: center;
+  justify-content: space-evenly;
+  font-size: 1.2rem;
+}
+
+.score-message {
+  margin-bottom: 1rem;
+}
+
+@media (min-width: 768px) {
+  .footer-container {
+    flex-direction: row;
+  }
+}
+
+hr {
+  margin-bottom: 1rem;
+  color: lawngreen;
+}
+
+.form-container {
+  margin-bottom: 1rem;
+}
